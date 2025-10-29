@@ -40,11 +40,11 @@ export default function TradingChart({
 
     const loadChart = async () => {
       try {
-        const { createChart } = await import('lightweight-charts')
+        const { createChart, ColorType } = await import('lightweight-charts')
 
         chart = createChart(chartContainerRef.current!, {
           layout: {
-            background: { type: 'solid' as const, color: 'transparent' },
+            background: { type: ColorType.Solid, color: 'transparent' },
             textColor: '#64748b',
           },
           width: chartContainerRef.current!.clientWidth,

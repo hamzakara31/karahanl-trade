@@ -56,11 +56,11 @@ const generateDemoChartData = (entryPrice: number, exitPrice: number, entryDate:
     index === self.findIndex((t) => t.time === item.time)
   )
   
+  // Sort by time (ascending order)
   return uniqueData.sort((a, b) => {
-    if (typeof a.time === 'number' && typeof b.time === 'number') {
-      return a.time - b.time
-    }
-    return a.time.localeCompare(b.time)
+    const timeA = typeof a.time === 'string' ? new Date(a.time).getTime() : a.time
+    const timeB = typeof b.time === 'string' ? new Date(b.time).getTime() : b.time
+    return timeA - timeB
   })
 }
 

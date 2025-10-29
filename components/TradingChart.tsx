@@ -44,7 +44,7 @@ export default function TradingChart({
 
         chart = createChart(chartContainerRef.current!, {
           layout: {
-            backgroundColor: 'transparent',
+            background: { type: 'solid' as const, color: 'transparent' },
             textColor: '#64748b',
           },
           width: chartContainerRef.current!.clientWidth,

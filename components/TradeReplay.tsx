@@ -3,7 +3,15 @@
 import { useState, useEffect, useRef } from 'react'
 import { Play, Pause, RotateCcw, SkipForward, SkipBack } from 'lucide-react'
 import TradingChart from './TradingChart'
-import { Candle } from '@/services/dataProviders/binanceService'
+
+interface Candle {
+  time: number
+  open: number
+  high: number
+  low: number
+  close: number
+  volume: number
+}
 
 interface TradeReplayProps {
   candles: Candle[]
@@ -116,7 +124,7 @@ export default function TradeReplay({
       <div className="bg-white dark:bg-slate-900 rounded-xl p-4 border border-slate-200 dark:border-slate-800">
         <TradingChart
           data={visibleCandles.map(c => ({
-            time: c.time,
+            time: c.time.toString(),
             open: c.open,
             high: c.high,
             low: c.low,
@@ -124,8 +132,8 @@ export default function TradeReplay({
           }))}
           entryPrice={currentIndex >= entryIndex ? entryPrice : undefined}
           exitPrice={currentIndex >= exitIndex ? exitPrice : undefined}
-          entryTime={currentIndex >= entryIndex ? entryTime : undefined}
-          exitTime={currentIndex >= exitIndex ? exitTime : undefined}
+          entryTime={currentIndex >= entryIndex ? entryTime.toString() : undefined}
+          exitTime={currentIndex >= exitIndex ? exitTime.toString() : undefined}
           profitTarget={profitTarget}
           stopLoss={stopLoss}
           direction={direction}

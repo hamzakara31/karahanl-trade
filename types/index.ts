@@ -9,6 +9,7 @@ export interface Trade {
   quantity: number
   entry_date: string
   exit_date: string
+  pnl?: number  // P&L from database
   profit_loss?: number
   profit_loss_percent?: number
   commission?: number

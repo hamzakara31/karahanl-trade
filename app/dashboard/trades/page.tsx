@@ -64,10 +64,11 @@ export default function TradesPage() {
       }
       
       // Result filter (Win/Loss)
-      if (filterResult === 'WIN' && trade.pnl <= 0) {
+      const tradePnl = trade.pnl || trade.profit_loss || 0
+      if (filterResult === 'WIN' && tradePnl <= 0) {
         return false
       }
-      if (filterResult === 'LOSS' && trade.pnl >= 0) {
+      if (filterResult === 'LOSS' && tradePnl >= 0) {
         return false
       }
       

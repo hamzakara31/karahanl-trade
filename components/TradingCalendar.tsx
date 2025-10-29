@@ -55,7 +55,7 @@ export default function TradingCalendar({ trades }: TradingCalendarProps) {
       })
       
       // P&L hesapla
-      const pnl = dayTrades.reduce((sum, trade) => sum + trade.pnl, 0)
+      const pnl = dayTrades.reduce((sum, trade) => sum + (trade.pnl || trade.profit_loss || 0), 0)
       const totalInvested = dayTrades.reduce((sum, trade) => 
         sum + (trade.entry_price * (trade.quantity || 1)), 0
       )

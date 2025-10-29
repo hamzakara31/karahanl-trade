@@ -26,11 +26,11 @@ export default function PerformanceWidgets({ trades }: PerformanceWidgetsProps) 
       }
     }
 
-    const winningTrades = trades.filter(t => t.pnl > 0)
-    const losingTrades = trades.filter(t => t.pnl < 0)
+    const winningTrades = trades.filter(t => (t.pnl || t.profit_loss || 0) > 0)
+    const losingTrades = trades.filter(t => (t.pnl || t.profit_loss || 0) < 0)
     
-    const totalWins = winningTrades.reduce((sum, t) => sum + t.pnl, 0)
-    const totalLosses = Math.abs(losingTrades.reduce((sum, t) => sum + t.pnl, 0))
+    const totalWins = winningTrades.reduce((sum, t) => sum + (t.pnl || t.profit_loss || 0), 0)
+    const totalLosses = Math.abs(losingTrades.reduce((sum, t) => sum + (t.pnl || t.profit_loss || 0), 0))
     
     const avgWin = winningTrades.length > 0 ? totalWins / winningTrades.length : 0
     const avgLoss = losingTrades.length > 0 ? totalLosses / losingTrades.length : 0
@@ -47,8 +47,8 @@ export default function PerformanceWidgets({ trades }: PerformanceWidgetsProps) 
     
     // Consistency: son 10 işlemin standart sapması
     const recentTrades = trades.slice(-10)
-    const recentPnLs = recentTrades.map(t => t.pnl)
-    const avgPnL = recentPnLs.reduce((sum, pnl) => sum + pnl, 0) / recentPnLs.length
+    const recentPnLs = recentTrades.map(t => t.pnl || t.profit_loss || 0)
+    const avgPnL = recentPnLs.reduce((sum, pnl) => sum + (pnl || 0), 0) / recentPnLs.length
     const variance = recentPnLs.reduce((sum, pnl) => sum + Math.pow(pnl - avgPnL, 2), 0) / recentPnLs.length
     const stdDev = Math.sqrt(variance)
     const consistencyScore = Math.max(0, 20 - (stdDev / avgPnL * 10)) // Düşük volatilite = yüksek puan
@@ -72,11 +72,14 @@ export default function PerformanceWidgets({ trades }: PerformanceWidgetsProps) 
   // Win Rate Chart Data (son 20 işlem)
   const recentPerformance = useMemo(() => {
     const recent = trades.slice(-20)
-    return recent.map((trade, index) => ({
-      index: index + 1,
-      isWin: trade.pnl > 0,
-      pnl: trade.pnl
-    }))
+    return recent.map((trade, index) => {
+      const pnl = trade.pnl || trade.profit_loss || 0
+      return {
+        index: index + 1,
+        isWin: pnl > 0,
+        pnl
+      }
+    })
   }, [trades])
 
   const formatCurrency = (value: number) => {

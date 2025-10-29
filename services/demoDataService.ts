@@ -91,8 +91,8 @@ const generateDemoTrades = (count: number = 50): Omit<Trade, 'id' | 'created_at'
       mae,
       mfe,
       contracts: quantity,
-      execution_quality: Math.floor(Math.random() * 5) + 1,
-      emotions: emotions[Math.floor(Math.random() * emotions.length)],
+      execution_quality: (Math.floor(Math.random() * 5) + 1).toString(),
+      emotions: [emotions[Math.floor(Math.random() * emotions.length)]],
       user_id: '' // Will be set when inserting
     })
   }

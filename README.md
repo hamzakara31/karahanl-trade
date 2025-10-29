@@ -31,17 +31,22 @@ TradeZella benzeri profesyonel bir trading analiz ve günlükleme platformu.
 - **Charts**: Recharts
 - **TypeScript**: Full type safety
 
-### Backend (Geliştirilecek)
+### Backend
 - **API**: Next.js API Routes
-- **Database**: PostgreSQL
+- **Database**: PostgreSQL (Supabase)
 - **Authentication**: Supabase Auth
 - **File Storage**: Supabase Storage
-- **Cache**: Redis
+- **Market Data**: Binance API (Crypto), Alpha Vantage (Forex/Stocks)
 
-### Broker Entegrasyonları (Geliştirilecek)
-- MetaTrader API
-- Interactive Brokers TWS API
-- Binance API
+### Data Providers
+- ✅ **Binance API**: Real-time cryptocurrency data (BTC, ETH, BNB, SOL, etc.)
+- ✅ **Alpha Vantage API**: Forex pairs (EUR/USD, GBP/USD, etc.) & Stocks
+
+### API Keys Required
+1. **Alpha Vantage** (Free): https://www.alphavantage.co/support/#api-key
+   - Add to `.env.local`: `NEXT_PUBLIC_ALPHA_VANTAGE_KEY=your_key`
+   - Free tier: 5 calls/min, 500/day
+2. **Binance**: No API key needed (public endpoints only)
 
 ## 📦 Kurulum
 
@@ -117,7 +122,8 @@ trade-journal-platform/
 - [ ] Otomatik senkronizasyon
 
 ### Faz 6: Gelişmiş Özellikler
-- [ ] Backtesting engine
+- [x] Backtesting engine (Binance + Alpha Vantage)
+- [x] SMA, RSI, MACD stratejileri
 - [ ] Replay modu
 - [ ] Playbook sistemi
 - [ ] AI önerileri

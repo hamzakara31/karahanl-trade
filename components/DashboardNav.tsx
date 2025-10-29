@@ -25,7 +25,7 @@ const navItems = [
   { icon: BarChart3, label: 'Günlük', href: '/dashboard/journal' },
   { icon: Tag, label: 'Etiketler', href: '/dashboard/tags' },
   { icon: Target, label: 'Stratejiler', href: '/dashboard' },
-  { icon: PlayCircle, label: 'Backtesting', href: '/dashboard' },
+  { icon: PlayCircle, label: 'Backtesting', href: '/dashboard/backtest' },
 ]
 
 export default function DashboardNav() {

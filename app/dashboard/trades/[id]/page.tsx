@@ -5,9 +5,10 @@ import { useParams, useRouter } from 'next/navigation'
 import { tradeService } from '@/services/tradeService'
 import { tagService } from '@/services/tagService'
 import { Trade, Tag } from '@/types'
-import { ArrowLeft, TrendingUp, TrendingDown, Calendar, DollarSign, Target, Star, Edit, Trash2 } from 'lucide-react'
+import { ArrowLeft, TrendingUp, TrendingDown, Calendar, DollarSign, Target, Star, Edit, Trash2, Play } from 'lucide-react'
 import Link from 'next/link'
 import TradingChart from '@/components/TradingChart'
+import TradeReplay from '@/components/TradeReplay'
 
 // Demo chart data generator
 const generateDemoChartData = (entryPrice: number, exitPrice: number, entryDate: string, exitDate: string) => {
@@ -73,6 +74,7 @@ export default function TradeDetailPage() {
   const [tags, setTags] = useState<Tag[]>([])
   const [loading, setLoading] = useState(true)
   const [chartData, setChartData] = useState<any[]>([])
+  const [viewMode, setViewMode] = useState<'chart' | 'replay'>('chart')
 
   useEffect(() => {
     loadTrade()
@@ -221,21 +223,66 @@ export default function TradeDetailPage() {
           </div>
         </div>
 
-        {/* Chart */}
+        {/* Chart / Replay Section */}
         <div className="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800 mb-8">
-          <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-6">
-            📈 Trade Grafiği
-          </h2>
-          <TradingChart
-            data={chartData}
-            entryPrice={trade.entry_price}
-            exitPrice={trade.exit_price}
-            entryTime={chartData.length > 0 ? chartData[0].time : undefined}
-            exitTime={chartData.length > 0 ? chartData[chartData.length - 1].time : undefined}
-            profitTarget={trade.profit_target}
-            stopLoss={trade.stop_loss}
-            direction={trade.direction}
-          />
+          {/* Tab Selector */}
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex gap-2 bg-slate-100 dark:bg-slate-800 rounded-lg p-1">
+              <button
+                onClick={() => setViewMode('chart')}
+                className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                  viewMode === 'chart'
+                    ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm'
+                    : 'text-slate-600 dark:text-slate-400'
+                }`}
+              >
+                📈 Grafik
+              </button>
+              <button
+                onClick={() => setViewMode('replay')}
+                className={`px-4 py-2 rounded-lg font-medium transition-all flex items-center gap-2 ${
+                  viewMode === 'replay'
+                    ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm'
+                    : 'text-slate-600 dark:text-slate-400'
+                }`}
+              >
+                <Play size={16} />
+                Replay Mode
+              </button>
+            </div>
+          </div>
+
+          {/* Content */}
+          {viewMode === 'chart' ? (
+            <TradingChart
+              data={chartData}
+              entryPrice={trade.entry_price}
+              exitPrice={trade.exit_price}
+              entryTime={chartData.length > 0 ? chartData[0].time : undefined}
+              exitTime={chartData.length > 0 ? chartData[chartData.length - 1].time : undefined}
+              profitTarget={trade.profit_target}
+              stopLoss={trade.stop_loss}
+              direction={trade.direction}
+            />
+          ) : (
+            <TradeReplay
+              candles={chartData.map(d => ({
+                time: typeof d.time === 'string' ? new Date(d.time).getTime() : d.time,
+                open: d.open,
+                high: d.high,
+                low: d.low,
+                close: d.close,
+                volume: 0
+              }))}
+              entryPrice={trade.entry_price}
+              exitPrice={trade.exit_price}
+              entryTime={chartData.length > 0 ? (typeof chartData[0].time === 'string' ? new Date(chartData[0].time).getTime() : chartData[0].time) : 0}
+              exitTime={chartData.length > 0 ? (typeof chartData[chartData.length - 1].time === 'string' ? new Date(chartData[chartData.length - 1].time).getTime() : chartData[chartData.length - 1].time) : 0}
+              direction={trade.direction}
+              profitTarget={trade.profit_target}
+              stopLoss={trade.stop_loss}
+            />
+          )}
         </div>
 
         {/* Stats Grid */}

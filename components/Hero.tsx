@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { ArrowRight, Star } from 'lucide-react'
+import Link from 'next/link'
 
 export default function Hero() {
   return (
@@ -34,13 +35,17 @@ export default function Hero() {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-            <button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-full font-bold text-lg hover:shadow-2xl transition-all hover:scale-105 flex items-center gap-2">
-              Hemen Başla
-              <ArrowRight size={20} />
-            </button>
-            <button className="border-2 border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 px-8 py-4 rounded-full font-bold text-lg hover:border-blue-600 transition-all">
-              Demo İzle
-            </button>
+            <Link href="/register">
+              <button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-full font-bold text-lg hover:shadow-2xl transition-all hover:scale-105 flex items-center gap-2">
+                Hemen Başla
+                <ArrowRight size={20} />
+              </button>
+            </Link>
+            <Link href="/dashboard">
+              <button className="border-2 border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 px-8 py-4 rounded-full font-bold text-lg hover:border-blue-600 transition-all">
+                Demo İzle
+              </button>
+            </Link>
           </div>
 
           {/* Trust Badge */}

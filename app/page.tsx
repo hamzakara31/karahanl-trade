@@ -18,6 +18,7 @@ import Hero from '@/components/Hero'
 import Features from '@/components/Features'
 import Stats from '@/components/Stats'
 import Navbar from '@/components/Navbar'
+import Link from 'next/link'
 
 export default function Home() {
   return (
@@ -42,9 +43,11 @@ export default function Home() {
             <p className="text-xl mb-8 text-blue-100">
               14 günlük para iade garantisi ile risk almadan deneyin
             </p>
-            <button className="bg-white text-blue-600 px-8 py-4 rounded-full font-bold text-lg hover:shadow-2xl transition-all hover:scale-105">
-              Ücretsiz Başla
-            </button>
+            <Link href="/register">
+              <button className="bg-white text-blue-600 px-8 py-4 rounded-full font-bold text-lg hover:shadow-2xl transition-all hover:scale-105">
+                Ücretsiz Başla
+              </button>
+            </Link>
           </motion.div>
         </div>
       </section>
